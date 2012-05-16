@@ -111,7 +111,7 @@ public class Application implements Runnable {
                 current = (current + 1) % imageFilters.size();
                 swapTimer.restart();
             }
-
+            //
         }
     }
 }
