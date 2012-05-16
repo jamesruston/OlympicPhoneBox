@@ -37,6 +37,7 @@ public class MotionDetector {
         canvasFrame.setCanvasSize(64, 80);
 
         JFrame f = new JFrame();
+        f.setAlwaysOnTop(true);
         f.setUndecorated(true);
         //f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         f.addWindowListener(new WindowAdapter() {
@@ -88,7 +89,7 @@ public class MotionDetector {
                 // perform ABS difference
                 cvAbsDiff(image, prevImage, diff);
                 // do some threshold for wipe away useless details
-                cvThreshold(diff, diff, 20, 255, CV_THRESH_BINARY);
+                cvThreshold(diff, diff, 10, 255, CV_THRESH_BINARY);
 
                 canvasFrame.showImage(diff);
 

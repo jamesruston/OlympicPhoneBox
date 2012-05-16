@@ -26,6 +26,7 @@ public class CannyCamera {
         canvasFrame.setCanvasSize(width, height);
 
         JFrame f = new JFrame();
+        f.setAlwaysOnTop(true);
         f.setUndecorated(true);
         //f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         f.addWindowListener(new WindowAdapter() {

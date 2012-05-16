@@ -1,0 +1,11 @@
+*==============================================================*
+* Welcome to the OlympicPhoneBox manager application
+*--------------------------------------------------------------*
+* The purpose of this application is to provide an applicant
+* interface for rendering of images and webcam feeds onto an
+* LED curtain hardware using the LED T9 software.
+*--------------------------------------------------------------*
+* This project utilises the following libraries:
+*
+*  o JavaCV - Java implementation of OpenCV
+*--------------------------------------------------------------*
