@@ -90,11 +90,10 @@ public class Application {
     }
 
     Application() {
-        /*//load filters from config file
-        List<String> filters = Configuration.getConfiguration().getList("filters");
-        imageFilters = new ArrayList<ImageFilter>(filters.size());
+        //load filters from config file
+        imageFilters = new ArrayList<ImageFilter>(config().filters.length);
         //loop though the filter names
-        for (String filterClass : filters) {
+        for (String filterClass : config().filters) {
             try {
                 //locate the class
                 Class clazz = Class.forName(filterClass);
@@ -108,6 +107,6 @@ public class Application {
                 continue;
             }
             System.out.println("filter " + filterClass + " loaded.");
-        }*/
+        }
     }
 }

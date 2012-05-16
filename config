@@ -1,1 +1,1 @@
-{"width":32,"height":80,"screen_count":2,"interval":5,"filters":["olympic.filter.Motion","olympic.filter.Canny"]}
+{"width":32,"height":80,"screen_count":2,"interval":5,"filters":["olympic.filters.Motion","olympic.filters.Canny"]}
