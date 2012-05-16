@@ -1,0 +1,6 @@
+#Olympic Phone Box Configuration
+width=32
+height=80
+screencount=2
+filters=[olympic.filters.Canny, olympic.filters.Motion,olympic.Invalid]
+interval=5
