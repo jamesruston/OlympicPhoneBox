@@ -2,7 +2,7 @@ package olympic.filters;
 
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_imgproc.*;
-import static com.googlecode.javacv.cpp.opencv_imgproc.cvCanny;
+import static olympic.util.Configuration.config;
 
 /**
  * Copyright (C) 2012 Oliver
@@ -35,7 +35,7 @@ public class Canny implements ImageFilter {
 
     @Override
     public IplImage process(IplImage image) {
-        image = cvCropMiddle(image, 128, 160);
+        image = cvCropMiddle(image, config().width * config().screen_count * 2, config().height * 2);
         IplImage smooth = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 3);
         IplImage gray = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 1);
         IplImage canny = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 1);

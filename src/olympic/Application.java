@@ -1,24 +1,13 @@
 package olympic;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.googlecode.javacv.CanvasFrame;
-import com.googlecode.javacv.FrameGrabber;
-import com.googlecode.javacv.OpenCVFrameGrabber;
-import com.googlecode.javacv.cpp.opencv_core;
-import olympic.filters.Canny;
-import olympic.filters.ImageFilter;
-import olympic.filters.Motion;
-import olympic.util.Configuration;
 
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
+import olympic.filters.ImageFilter;
+import olympic.util.Timer;
+
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.List;
+
+import static olympic.util.Configuration.config;
 
 /**
  * Copyright (C) 2012 Oliver
@@ -37,9 +26,7 @@ import java.util.List;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import static olympic.util.Configuration.config;
-
-public class Application {
+public class Application implements Runnable {
 
     private ArrayList<ImageFilter> imageFilters;
 
@@ -93,6 +80,7 @@ public class Application {
         //load filters from config file
         imageFilters = new ArrayList<ImageFilter>(config().filters.length);
         //loop though the filter names
+        System.out.printf("Loading %d filters.\n", config().filters.length);
         for (String filterClass : config().filters) {
             try {
                 //locate the class
@@ -102,11 +90,28 @@ public class Application {
                 //instantiate the class through reflection and add its instance to an array list
                 imageFilters.add((ImageFilter) constructor.newInstance());
             } catch (Exception e) {
-                System.err.println("filter " + filterClass + " not found.");
+                System.err.printf("\t- filter %s not found.\n", filterClass);
                 //go back to the start of the for-loop
                 continue;
             }
-            System.out.println("filter " + filterClass + " loaded.");
+            System.out.printf("\t- filter %s loaded.\n", filterClass);
+        }
+        new Thread(this).start();
+    }
+
+    @Override
+    public void run() {
+        System.out.printf("\nApplication thread started.\n");
+        Timer swapTimer = new Timer(config().interval * 1000);
+        int current = 0;
+        ImageFilter filter = imageFilters.get(current);
+        while (true) {
+            if (swapTimer.up()) {
+                filter = imageFilters.get(current);
+                current = (current + 1) % imageFilters.size();
+                swapTimer.restart();
+            }
+
         }
     }
 }
