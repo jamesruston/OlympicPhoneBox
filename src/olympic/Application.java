@@ -1,5 +1,7 @@
 package olympic;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.googlecode.javacv.CanvasFrame;
 import com.googlecode.javacv.FrameGrabber;
 import com.googlecode.javacv.OpenCVFrameGrabber;
@@ -34,12 +36,14 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+import static olympic.util.Configuration.config;
+
 public class Application {
 
     private ArrayList<ImageFilter> imageFilters;
 
     public static void main(String[] args) throws Exception {
-
         new Application();
 
         /*olympic.util.Timer swap = new olympic.util.Timer(5000);
@@ -86,7 +90,7 @@ public class Application {
     }
 
     Application() {
-        //load filters from config file
+        /*//load filters from config file
         List<String> filters = Configuration.getConfiguration().getList("filters");
         imageFilters = new ArrayList<ImageFilter>(filters.size());
         //loop though the filter names
@@ -104,6 +108,6 @@ public class Application {
                 continue;
             }
             System.out.println("filter " + filterClass + " loaded.");
-        }
+        }*/
     }
 }

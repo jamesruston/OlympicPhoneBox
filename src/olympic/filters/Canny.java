@@ -1,7 +1,5 @@
 package olympic.filters;
 
-import olympic.util.Configuration;
-
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_imgproc.*;
 import static com.googlecode.javacv.cpp.opencv_imgproc.cvCanny;
@@ -24,10 +22,7 @@ import static com.googlecode.javacv.cpp.opencv_imgproc.cvCanny;
  */
 public class Canny implements ImageFilter {
 
-    private static Configuration config = Configuration.getConfiguration();
-
     private final int t1, t2;
-    private static final int SCALE = 2;
 
     public Canny() {
         this(50, 50);
@@ -40,8 +35,7 @@ public class Canny implements ImageFilter {
 
     @Override
     public IplImage process(IplImage image) {
-        image = cvCropMiddle(image, (config.getInt("width") * config.getInt("screencount")) * SCALE,
-                (config.getInt("height") * config.getInt("screencount")) * SCALE);
+        image = cvCropMiddle(image, 128, 160);
         IplImage smooth = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 3);
         IplImage gray = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 1);
         IplImage canny = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U, 1);

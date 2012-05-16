@@ -1,6 +1,1 @@
-#Olympic Phone Box Configuration
-width=32
-height=80
-screencount=2
-filters=[olympic.filters.Canny, olympic.filters.Motion,olympic.Invalid]
-interval=5
+{"width":32,"height":80,"screen_count":2,"interval":5,"filters":["olympic.filter.Motion","olympic.filter.Canny"]}

@@ -1,9 +1,9 @@
 package olympic.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,87 +27,27 @@ import java.util.Properties;
  */
 public class Configuration {
 
-    private static Configuration instance;
-    private File file;
-    private boolean use_xml = false;
+    private static final Gson gson = new GsonBuilder().create();
+    private static final Configuration instance;
 
-    private Properties config_file;
+    public int width;
+    public int height;
+    public int screen_count;
+    public int interval;
+    public String[] filters;
 
-    private Configuration() {
-        this("config");
-    }
-
-    private Configuration(String file_name) {
-        this(file_name, false);
-    }
-
-    private Configuration(String file_name, boolean use_xml) {
-        if (instance != null)
-            throw new RuntimeException();
-        this.file = new File(file_name);
-        this.use_xml = use_xml;
-        this.config_file = new Properties();
+    static {
+        Reader reader = null;
         try {
-            load();
-        } catch (IOException e) {
+            reader = new InputStreamReader(new FileInputStream("config"));
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        instance = gson.fromJson(reader, Configuration.class);
     }
 
-    public static synchronized Configuration getConfiguration() {
-        if (instance == null)
-            instance = new Configuration();
+    public synchronized static Configuration config() {
         return instance;
-    }
-
-    public void put(String key, String value) {
-        config_file.put(key, value);
-    }
-
-    public void remove(String key) {
-        config_file.remove(key);
-    }
-
-    public String get(String key) {
-        return config_file.getProperty(key);
-    }
-
-    public int getInt(String key) {
-        return Integer.parseInt(config_file.getProperty(key));
-    }
-
-    public double getDouble(String key) {
-        return Double.parseDouble(config_file.getProperty(key));
-    }
-
-    public List<String> getList(String key) {
-        String property = config_file.getProperty(key);
-        if (property.startsWith("[") && property.endsWith("]")) {
-            property = property.substring(1, property.length() - 1).trim();
-            return Arrays.asList(property.split("[\\,\\s+?]+"));
-        } else {
-            return new ArrayList<String>(0);
-        }
-    }
-
-    public void save() throws IOException {
-        if (use_xml)
-            config_file.storeToXML(new FileOutputStream(file), null);
-        else
-            config_file.store(new FileOutputStream(file), null);
-    }
-
-    public void load() throws IOException {
-        if (file.exists()) {
-            if (use_xml)
-                config_file.loadFromXML(new FileInputStream(file));
-            else
-                config_file.load(new FileInputStream(file));
-            //System.out.println("config file loaded successfully.");
-        } else {
-            System.err.println("config file does not exist.");
-            save();
-        }
     }
 
 }
