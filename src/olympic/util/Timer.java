@@ -23,25 +23,38 @@ public class Timer {
     private boolean running = false;
     private long wait;
 
+    /**
+     * create a new timer instance
+     *
+     * @param millis time to check in milliseconds
+     */
     public Timer(long millis) {
         this.wait = millis;
         start();
     }
 
-
+    /**
+     * start the timer countdown
+     */
     public void start() {
         this.startTime = System.currentTimeMillis();
         this.running = true;
     }
 
-
+    /**
+     * stop the timer
+     */
     public void stop() {
         this.stopTime = System.currentTimeMillis();
         this.running = false;
     }
 
 
-    //elaspsed time in milliseconds
+    /**
+     * return the elapsed time
+     *
+     * @return the current elapsed time
+     */
     public long getElapsedTime() {
         long elapsed;
         if (running) {
@@ -52,10 +65,18 @@ public class Timer {
         return elapsed;
     }
 
+    /**
+     * check to see if the timer has completed
+     *
+     * @return if the timer has completed
+     */
     public boolean up() {
         return getElapsedTime() > wait;
     }
 
+    /**
+     * resets the timer by stopping the current timer and starting again
+     */
     public void restart() {
         stop();
         start();

@@ -96,22 +96,31 @@ public class Application implements Runnable {
             }
             System.out.printf("\t- filter %s loaded.\n", filterClass);
         }
+        //start the application thread
         new Thread(this).start();
     }
 
     @Override
+    /**
+     * Application thread
+     */
     public void run() {
         System.out.printf("\nApplication thread started.\n");
+        //create timer
         Timer swapTimer = new Timer(config().interval * 1000);
         int current = 0;
+        //get the first available filter
         ImageFilter filter = imageFilters.get(current);
         while (true) {
+            //if the timer is up enter branch statement
             if (swapTimer.up()) {
-                filter = imageFilters.get(current);
+                //increase counter by 1, looping back to 0 when it reaches the size of image filters
                 current = (current + 1) % imageFilters.size();
+                //get the next image filter
+                filter = imageFilters.get(current);
+                //reset the timer
                 swapTimer.restart();
             }
-            //
         }
     }
 }
